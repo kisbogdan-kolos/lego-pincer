@@ -352,7 +352,7 @@ func handleDeleteOrder(c *gin.Context) {
 	}
 
 	var order db.Order
-	res := db.DB.Where("uuid = ?", orderUUID).First(&order)
+	res := db.DB.Preload("Item").Where("uuid = ?", orderUUID).First(&order)
 	if res.Error != nil {
 		if errors.Is(res.Error, gorm.ErrRecordNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "order not found"})
@@ -360,6 +360,27 @@ func handleDeleteOrder(c *gin.Context) {
 		}
 		log.Printf("DB error fetching order: %v", res.Error)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		return
+	}
+
+	// Check that deletion is within the item's available window
+	now := time.Now()
+	// If item was not preloaded for some reason, try to fetch it
+	if order.Item.ID == 0 {
+		if err := db.DB.First(&order.Item, order.ItemID).Error; err != nil {
+			log.Printf("DB error fetching item for availability check: %v", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+			return
+		}
+	}
+
+	if order.Item.AvailableFrom != nil && now.Before(*order.Item.AvailableFrom) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "order cannot be deleted before item's available-from time"})
+		return
+	}
+
+	if order.Item.AvailableUntil != nil && now.After(*order.Item.AvailableUntil) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "order cannot be deleted after item's available-until time"})
 		return
 	}
 
