@@ -28,10 +28,12 @@ WORKDIR /
 
 COPY --from=build-backend /lego-pincer /lego-pincer
 COPY --from=build-backend /app/rooms.json /rooms.json
+COPY --from=build-backend /app/email/templates /email
 COPY --from=build-frontend /frontend/dist /dist
 
 ENV FRONTEND_DIR=./dist
-ENV ROOM_JSON_PATH=./rooms.json
+ENV ROOMS_JSON_PATH=./rooms.json
+ENV EMAIL_TEMPLATE_DIR=./email
 
 EXPOSE 8080
 

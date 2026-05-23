@@ -41,6 +41,8 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql
               name: postgresdata
+      imagePullSecrets:
+        - name: dockerhub
       volumes:
         - name: postgresdata
           persistentVolumeClaim:
@@ -101,6 +103,8 @@ spec:
               cpu: 1000m
             requests:
               cpu: 500m
+      imagePullSecrets:
+        - name: dockerhub
 ---
 apiVersion: v1
 kind: Service

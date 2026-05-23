@@ -161,7 +161,7 @@ func handleGetAllProducts(c *gin.Context) {
 		return
 	}
 
-	var resp []ProductResponse
+	resp := make([]ProductResponse, 0)
 
 	for _, item := range items {
 		var totalOrdered uint

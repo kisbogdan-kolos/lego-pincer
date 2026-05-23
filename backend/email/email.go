@@ -102,7 +102,8 @@ func RenderTemplate(name string, data any) (string, error) {
 		return "", fmt.Errorf("could not determine email package path")
 	}
 
-	templatePath := filepath.Join(filepath.Dir(filePath), "templates", name)
+	templateBaseDir := helper.EnvGet("EMAIL_TEMPLATE_DIR", filepath.Join(filepath.Dir(filePath), "templates"))
+	templatePath := filepath.Join(templateBaseDir, name)
 	content, err := os.ReadFile(templatePath)
 	if err != nil {
 		return "", err
