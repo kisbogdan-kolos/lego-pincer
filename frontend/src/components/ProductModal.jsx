@@ -1,7 +1,7 @@
-import React, {useState, useMemo} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import { submitOrder } from '../api'
 
-export default function ProductModal({product,onClose}){
+export default function ProductModal({product,onClose,onSuccess}){
   const [qty,setQty] = useState(1)
   const [name,setName] = useState('')
   const [email,setEmail] = useState('')
@@ -10,6 +10,7 @@ export default function ProductModal({product,onClose}){
   const [status,setStatus] = useState(null)
   const [errorMessage,setErrorMessage] = useState(null)
   const [flash,setFlash] = useState(false)
+  const [isSubmitting,setIsSubmitting] = useState(false)
 
   const maxAvailable = product.available_quantity ?? 0
 
@@ -20,7 +21,7 @@ export default function ProductModal({product,onClose}){
     return (basePrice + (bonus ? bonusPrice : 0)) * qty
   },[basePrice, bonus, bonusPrice, qty])
 
-  React.useEffect(()=>{
+  useEffect(()=>{
     // flash the price briefly when quantity changes
     setFlash(true)
     const t = setTimeout(()=>setFlash(false), 220)
@@ -29,11 +30,15 @@ export default function ProductModal({product,onClose}){
 
   async function handleSubmit(e){
     e.preventDefault()
+    if(isSubmitting){
+      return
+    }
     if(qty > maxAvailable){
       setStatus('insufficient quantity')
       return
     }
     setStatus('sending')
+    setIsSubmitting(true)
     try{
       setErrorMessage(null)
       const res = await submitOrder({
@@ -46,6 +51,8 @@ export default function ProductModal({product,onClose}){
       })
       if(res.ok){
         setStatus('Sikeres rendelés')
+        onSuccess?.()
+        onClose()
       } else {
         const j = await res.json()
         // if server indicates room validation, surface prominently
@@ -59,6 +66,8 @@ export default function ProductModal({product,onClose}){
       }
     } catch(err){
       setStatus('error')
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -93,7 +102,7 @@ export default function ProductModal({product,onClose}){
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="primary" disabled={qty > maxAvailable || maxAvailable===0}>{maxAvailable===0? 'Elfogyott :(':'RENDELÉS'}</button>
+            <button type="submit" className="primary" disabled={isSubmitting || qty > maxAvailable || maxAvailable===0}>{isSubmitting ? 'KÜLDÉS…' : (maxAvailable===0? 'Elfogyott :(':'RENDELÉS')}</button>
           </div>
           <div className="modal-messages" aria-live="polite">
             {status && <div className="modal-message modal-message-status">{status}</div>}

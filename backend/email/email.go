@@ -19,6 +19,8 @@ var auth smtp.Auth
 var server string
 var mailFrom string
 
+var nomail = false
+
 type email struct {
 	Recipient string
 	Subject   string
@@ -49,6 +51,12 @@ func Init() error {
 	server = helper.EnvGet("SMTP_SERVER", "")
 	mailFrom = helper.EnvGet("SMTP_MAIL_FROM", "")
 
+	if server == "" && mailFrom == "" {
+		nomail = true
+		log.Printf("No email details set, disabling email sending.")
+		return nil
+	}
+
 	parts := strings.Split(server, ":")
 	if len(parts) != 2 {
 		return fmt.Errorf("SMTP server format incorrect: must include a port")
@@ -73,6 +81,11 @@ func Init() error {
 }
 
 func Send(recipient string, subject string, message string) error {
+	if nomail {
+		log.Printf("Email details not set, not sending email.")
+		return nil
+	}
+
 	if strings.ContainsAny(recipient, "\r\n\t") {
 		return fmt.Errorf("recipient format incorrect: must not include newline or tabs")
 	}
@@ -87,6 +100,11 @@ func Send(recipient string, subject string, message string) error {
 }
 
 func SendEnqueue(recipient string, subject string, message string) error {
+	if nomail {
+		log.Printf("Email details not set, not sending email.")
+		return nil
+	}
+
 	queue <- email{
 		Recipient: recipient,
 		Subject:   subject,
