@@ -35,6 +35,9 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5432
+          env:
+            - name: TZ
+              value: Europe/Budapest
           envFrom:
             - secretRef:
                 name: lego-pincer-secrets
@@ -95,6 +98,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          env:
+            - name: TZ
+              value: Europe/Budapest
           envFrom:
             - secretRef:
                 name: lego-pincer-secrets
