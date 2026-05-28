@@ -38,7 +38,7 @@ export default function ProductList(){
     setSelected(null)
     setSuccessCue({
       id: product.id,
-      name: product.name || 'Rendelés sikeres'
+      name: product.name || 'Sikeres rendelés'
     })
 
     if(successTimerRef.current){
@@ -56,8 +56,8 @@ export default function ProductList(){
 
   return (
     <div className="product-list">
-      {loading && <div className="loading">Loading products…</div>}
-      {error && <div className="error">Failed to load products</div>}
+      {loading && <div className="loading">Termékek betöltése…</div>}
+      {error && <div className="error">Nem sikerült betölteni a termékeket</div>}
       <div className="cards">
         {products.map(p => (
           <ProductCard key={p.id} product={p} onOpen={() => setSelected(p)} />

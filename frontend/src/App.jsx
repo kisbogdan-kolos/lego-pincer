@@ -1,5 +1,7 @@
-import React, {useState} from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import ProductList from './components/ProductList'
+import Footer from './components/Footer'
 
 export default function App(){
   return (
@@ -20,6 +22,7 @@ export default function App(){
         <ProductList />
 
       </main>
+      <Footer />
     </div>
   )
 }

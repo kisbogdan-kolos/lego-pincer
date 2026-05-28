@@ -34,10 +34,10 @@ export default function ProductModal({product,onClose,onSuccess}){
       return
     }
     if(qty > maxAvailable){
-      setStatus('insufficient quantity')
+      setStatus('Nincs elegendő mennyiség')
       return
     }
-    setStatus('sending')
+    setStatus('Küldés folyamatban')
     setIsSubmitting(true)
     try{
       setErrorMessage(null)
@@ -61,11 +61,11 @@ export default function ProductModal({product,onClose,onSuccess}){
           setErrorMessage(j.error)
         } else {
           setErrorMessage(null)
-          setStatus(j.error || 'error')
+          setStatus(j.error || 'Hiba történt')
         }
       }
     } catch(err){
-      setStatus('error')
+      setStatus('Hiba történt')
     } finally {
       setIsSubmitting(false)
     }
@@ -74,7 +74,7 @@ export default function ProductModal({product,onClose,onSuccess}){
   return (
     <div className="modal-backdrop">
       <div className="modal">
-        <button className="modal-close" onClick={onClose} aria-label="Close">×</button>
+        <button className="modal-close" onClick={onClose} aria-label="Bezárás">×</button>
         <h2 title={product.name}>{(product.name||'').toUpperCase()}</h2>
         <form onSubmit={handleSubmit} className="order-form">
           <label>NÉV

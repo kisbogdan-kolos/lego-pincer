@@ -22,7 +22,7 @@ export default function OrderEdit(){
           const data = await res.json().catch(()=>null)
           if(!cancelled){
             setOrder(null)
-            setError(data?.error || 'order not found')
+            setError(data?.error || 'A rendelés nem található')
           }
           return
         }
@@ -32,7 +32,7 @@ export default function OrderEdit(){
         }
       } catch(e){
         if(!cancelled){
-          setError('network error')
+          setError('Hálózati hiba')
         }
       } finally {
         if(!cancelled){
@@ -56,14 +56,14 @@ export default function OrderEdit(){
       if(!res.ok){
         const data = await res.json().catch(()=>null)
         setActionState(null)
-        setError(data?.error || 'delete failed')
+        setError(data?.error || 'A törlés nem sikerült')
         return
       }
       setActionState('deleted')
       setTimeout(()=>navigate('/'), 900)
     } catch(e){
       setActionState(null)
-      setError('network error')
+      setError('Hálózati hiba')
     }
   }
 
@@ -82,7 +82,7 @@ export default function OrderEdit(){
           <h1>Rendelés kezelése</h1>
         </section>
 
-        {loading && <div className="modal-message modal-message-status order-page-inline-message">Loading order...</div>}
+        {loading && <div className="modal-message modal-message-status order-page-inline-message">Rendelés betöltése...</div>}
 
         {!loading && error && <div className="modal-message modal-message-error order-page-inline-message">{error}</div>}
 
@@ -124,7 +124,7 @@ export default function OrderEdit(){
               <Link to="/" className="secondary-link">Vissza a termékekhez</Link>
             </div>
 
-            {actionState === 'deleted' && <div className="modal-message modal-message-status order-page-inline-message">Order deleted</div>}
+            {actionState === 'deleted' && <div className="modal-message modal-message-status order-page-inline-message">Rendelés törölve</div>}
           </div>
         )}
       </main>

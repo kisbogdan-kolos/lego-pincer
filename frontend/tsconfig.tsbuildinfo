@@ -1,1 +1,1 @@
-{"root":["./src/App.jsx","./src/api.js","./src/main.jsx","./src/components/ProductCard.jsx","./src/components/ProductList.jsx","./src/components/ProductModal.jsx","./src/pages/Admin.jsx","./src/pages/OrderEdit.jsx"],"version":"5.9.3"}
+{"root":["./src/App.jsx","./src/api.js","./src/main.jsx","./src/components/Footer.jsx","./src/components/ProductCard.jsx","./src/components/ProductList.jsx","./src/components/ProductModal.jsx","./src/pages/Admin.jsx","./src/pages/Impressum.jsx","./src/pages/OrderEdit.jsx"],"version":"5.9.3"}

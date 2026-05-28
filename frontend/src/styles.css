@@ -6,6 +6,27 @@ body{margin:0;font-family:Inter,system-ui,Arial;background:var(--bg);color:#fff}
 .nav a:first-child{margin-left:0}
 .content{max-width:1100px;margin:18px auto;padding:0 12px}
 
+.app-root{min-height:100vh;display:flex;flex-direction:column}
+.content{flex:1 0 auto}
+.site-footer{margin-top:auto;border-top:1px solid rgba(255,122,0,0.22);background:#0d0d0d}
+.site-footer-inner{max-width:1100px;margin:0 auto;padding:16px 12px;display:flex;align-items:center;justify-content:space-between;gap:16px;color:var(--muted);font-size:14px}
+.site-footer-links{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.site-footer a{color:#fff;text-decoration:none}
+.site-footer a:hover{color:var(--accent)}
+
+.impressum-content{width:min(80%,960px);max-width:960px}
+.impressum-hero,.impressum-card{width:100%}
+.impressum-card{background:rgba(24,24,24,0.92);border:1px solid rgba(255,122,0,0.18);border-radius:18px;padding:28px;box-shadow:0 18px 48px rgba(0,0,0,0.35);margin-top:1em;}
+.impressum-kicker{margin:0 0 10px;color:var(--accent);text-transform:uppercase;letter-spacing:2px;font-size:12px;font-weight:700}
+.impressum-card h1{margin:0 0 18px;font-size:36px;line-height:1.05}
+.impressum-list{margin:0;display:grid;gap:16px}
+.impressum-list div{padding:14px 0;border-top:1px solid rgba(255,255,255,0.08)}
+.impressum-list div:first-child{border-top:0;padding-top:0}
+.impressum-list dt{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.impressum-list dd{margin:0;color:#fff;font-size:18px}
+.impressum-card a{color:#fff}
+.impressum-card a:hover{color:var(--accent)}
+
 .hero{height:160px;border-radius:6px;overflow:hidden;background:
 	linear-gradient(180deg,rgba(255,122,0,0.52),rgba(0,0,0,0.72)),
 	url('./img/labor.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;display:flex;align-items:center;justify-content:center}
